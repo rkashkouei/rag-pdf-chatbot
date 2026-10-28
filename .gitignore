@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets and local settings
+.env
+
+# Generated vector database (can be rebuilt from the PDFs)
+chroma_db/
+
+# Your PDFs (keep the folder, not the files)
+data/pdfs/*
+!data/pdfs/.gitkeep
+
+# Tools and OS
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store

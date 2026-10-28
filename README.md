@@ -57,7 +57,7 @@ rag-pdf-chatbot/
 ## Roadmap
 
 - [x] Step 1: Project setup
-- [ ] Step 2: Load and split PDFs
+- [x] Step 2: Load and split PDFs
 - [ ] Step 3: Embeddings and Chroma vector store
 - [ ] Step 4: Retrieval and answer generation
 - [ ] Step 5: Command-line chat with source citations

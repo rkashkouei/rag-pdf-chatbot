@@ -58,7 +58,7 @@ rag-pdf-chatbot/
 
 - [x] Step 1: Project setup
 - [x] Step 2: Load and split PDFs
-- [ ] Step 3: Embeddings and Chroma vector store
+- [x] Step 3: Embeddings and Chroma vector store
 - [ ] Step 4: Retrieval and answer generation
 - [ ] Step 5: Command-line chat with source citations
 - [ ] Step 6: Tests and polish

@@ -1,8 +1,4 @@
 """Step 2: load PDFs and split them into chunks.
-
-Run it from the project root to see the result:
-
-    python -m src.ingest
 """
 
 from pathlib import Path

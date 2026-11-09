@@ -21,17 +21,20 @@ from src.vectorstore import load_vectorstore
 
 # The prompt is the most important "setting" of a RAG system.
 # It tells the model: use ONLY the context, and admit when the answer is missing.
-SYSTEM_PROMPT = """You are a helpful assistant that answers questions about documents.
+# The fixed sentence the model must use when the context has no answer.
+# Keeping it in one variable lets the code detect a refusal later.
+NOT_FOUND = "I could not find this in the documents."
 
-Rules:
-- Answer ONLY with information from the context below.
-- If the context does not contain the answer, say exactly:
-  "I could not find this in the documents."
-- Do not use outside knowledge and do not guess.
-- Keep the answer clear and concise.
-
-Context:
-{context}"""
+SYSTEM_PROMPT = (
+    "You are a helpful assistant that answers questions about documents.\n\n"
+    "Rules:\n"
+    "- Answer ONLY with information from the context below.\n"
+    "- If the context does not contain the answer, say exactly:\n"
+    f'  "{NOT_FOUND}"\n'
+    "- Do not use outside knowledge and do not guess.\n"
+    "- Keep the answer clear and concise.\n\n"
+    "Context:\n{context}"  # {context} is filled in by LangChain at run time
+)
 
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -81,6 +84,11 @@ def ask(question: str) -> tuple[str, list[str]]:
     context = format_context(chunks)                  # 2. build the context
     chain = prompt | get_llm() | StrOutputParser()    # 3. prompt -> model -> text
     answer = chain.invoke({"context": context, "question": question})
+
+    # If the model said "not found", the retrieved chunks were not useful,
+    # so listing them as sources would be misleading.
+    if NOT_FOUND.rstrip(".").lower() in answer.lower():
+        return answer, []
     return answer, unique_sources(chunks)
 
 
